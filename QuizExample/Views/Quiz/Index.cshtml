@@ -1,0 +1,46 @@
+﻿@model IEnumerable<QuizExample.Models.Quiz>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Quiz"
+                       asp-action="GetAllQuizQuestions"
+                       asp-route-id="@item.QuizId"
+                       >
+
+                        @Html.DisplayFor(modelItem => item.name)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuizId)
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <form asp-controller="Quiz" asp-action="Create" method="post">
+        <label title="name"/>
+        <input name="name" id="name" type="text"/>
+        <br /><button type="submit">Register</button>
+    </form>
+</table>

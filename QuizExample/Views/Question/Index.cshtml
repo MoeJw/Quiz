@@ -1,0 +1,69 @@
+﻿@model IEnumerable<QuizExample.Models.Option>
+
+<h1> @Html.ViewData["QuestionName"]</h1>
+<form id="CreateOption">
+    <label title="name" />
+    <input name="Title" id="Title" type="text" />
+    <input name="AnswerID" id="AnswerID" type="text" value="@Html.ViewData["answer"]" hidden />
+    <input name="QuestionId" id="QuestionId" type="text" value="@Html.ViewData["QuestionId"]" hidden />
+    <label>
+        is the answer
+    </label>
+
+    <br /><button type="submit">Create Option</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Option Name
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+    <tbody id="tableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                     @Html.DisplayFor(modelItem => item.Title)
+
+                    <input hidden type="text" value="@item.Title" id="OptionId" />
+                </td>
+              
+                <td><input type="checkbox" id="TheAnswer" name="TheAnswer"/></td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+    </tbody>
+</table>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script type="text/javascript">
+    debugger;
+    $("#CreateOption").on("submit", function (e) {
+        var title = $("#Title").val();
+        var QuestionId = $("#QuestionId").val();
+        e.preventDefault();
+        $.ajax({
+            url: '../CreateOption',
+            type: "POST",
+            async: true,
+            cache: false,
+            data: {
+                Title: title,
+                QuestionID: QuestionId
+            },
+            success: function (data, status, xhr) {
+                $("#tableBody").append(`<tr><td>${title}</td></tr>`)
+            }
+
+        })
+    });
+   </script>
+

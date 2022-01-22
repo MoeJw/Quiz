@@ -1,0 +1,64 @@
+﻿@model IEnumerable<QuizExample.Models.Question>
+
+<h1> @Html.ViewData["QuizName"]</h1>
+<form id="CreateQuestion">
+    <label title="name" />
+    <input name="Title" id="Title" type="text" />
+    <input name="QuizID" id="QuizID" type="text" value="@Html.ViewData["QuizId"]" hidden />
+    <br /><button type="submit">Create Question</button>
+</form>
+<table class="table" >
+    <thead>
+        <tr>
+            <th>
+                Question Name
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Question"
+                       asp-action="index"
+                       asp-route-id="@item.QuestionID">
+                        @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    <input hidden type="text" value="@item.QuestionID" id="QuestionId"/>
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script type="text/javascript">
+    debugger;
+    $("#CreateQuestion").on("submit", function (e) {
+        var title = $("#Title").val();
+        var QuizId = $("#QuizID").val();
+        var QuestionId = $("#QuestionId").val();
+        e.preventDefault();
+        $.ajax({
+            url: '../../Question/Create',
+            type: "POST",
+            async: true,
+            cache: false,
+            data: {
+                Title: title,
+                QuizId: QuizId
+            },
+            success: function (data, status, xhr) {
+                $("#tableBody").append(`<a herf="../../Question/index/${QuestionId}"><tr><td>${title}</td></tr></a>`)
+            }
+
+        })
+    });
+</script>
+
